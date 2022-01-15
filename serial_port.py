@@ -53,7 +53,7 @@ class SerialDevice:
             msg = self.ser.read().decode()
         callback(line)
 
-    def send_pir(self, kp: float, ki: float, kd: float):
+    def send_pid(self, kp: float, ki: float, kd: float):
         message = bytes(f"{kp},{ki},{kd}", 'UTF-8')
         self.loop.call_soon(self.ser.write, message)
 

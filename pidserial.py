@@ -2,7 +2,7 @@ import sys
 import qasync
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from pirgui import *
+from pidgui import *
 from serial_port import *
 
 class ComboSlider(QtCore.QObject):
@@ -45,8 +45,8 @@ class EventHandler(QtCore.QObject):
         self.baudRateCombo = ui.baudRateCombo
         self.serialPortCombo = ui.serialPortCombo
 
-        self.sendButton = ui.sendButton
-        self.serialToggleButton = ui.start
+        self.sendPidToSerialButton = ui.sendPidToSerialButton
+        self.serialToggleButton = ui.serialToggleButton
 
         self.consoleScroll = ui.consoleArea
         self.consoleText = ui.consoleText
@@ -57,8 +57,8 @@ class EventHandler(QtCore.QObject):
         self.baudRateCombo.setCurrentIndex(4)
         self.serialPortCombo.addItems(serial_ports())
 
-        self.sendButton.setEnabled(False)
-        self.sendButton.clicked.connect(lambda: self.sendViaSerialPort())
+        self.sendPidToSerialButton.setEnabled(False)
+        self.sendPidToSerialButton.clicked.connect(lambda: self.sendViaSerialPort())
 
         self.serialToggleButton.clicked.connect(lambda: self.toggleSerial())
 
@@ -70,21 +70,21 @@ class EventHandler(QtCore.QObject):
         if (self.serial.isStarted()):
             self.serial.stop()
             self.serialToggleButton.setText("Start listening")
-            self.sendButton.setEnabled(False)
+            self.sendPidToSerialButton.setEnabled(False)
         else:
             baudRate = int(self.baudRateCombo.currentText())
             serialPortDevice = self.serialPortCombo.currentText()
             self.consoleText.setText("")
             self.serial.start(serialPortDevice, baudRate, self.printSerialMessage)
             self.serialToggleButton.setText("Stop listening")
-            self.sendButton.setEnabled(True)
+            self.sendPidToSerialButton.setEnabled(True)
 
     def sendViaSerialPort(self):
         kpPir = self.kpSlider.value()
         kiPir = self.kiSlider.value()
         kdPir = self.kdSlider.value()
 
-        self.serial.send_pir(kp = kpPir, ki = kiPir, kd = kdPir)
+        self.serial.send_pid(kp = kpPir, ki = kiPir, kd = kdPir)
 
     def printSerialMessage(self, line):
         print(f"rcv> {line}")

@@ -1,9 +1,9 @@
-# Generate pirgui.py
+# Generate pidgui.py from pidgui.ui
 ``` 
-pyuic5 pirgui.ui -o pirgui.py
+pyuic5 pidgui.ui -o pidgui.py
 ```
 
 # Run application
 ``` 
-python pir.py 
+python pid.py 
 ``` 
