@@ -80,11 +80,11 @@ class EventHandler(QtCore.QObject):
             self.sendPidToSerialButton.setEnabled(True)
 
     def sendViaSerialPort(self):
-        kpPir = self.kpSlider.value()
-        kiPir = self.kiSlider.value()
-        kdPir = self.kdSlider.value()
+        kpPid = self.kpSlider.value()
+        kiPid = self.kiSlider.value()
+        kdPid = self.kdSlider.value()
 
-        self.serial.send_pid(kp = kpPir, ki = kiPir, kd = kdPir)
+        self.serial.send_pid(kp = kpPid, ki = kiPid, kd = kdPid)
 
     def printSerialMessage(self, line):
         print(f"rcv> {line}")
